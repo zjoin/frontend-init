@@ -1,0 +1,13 @@
+{
+  "name": "My-frontend-prototype",
+  "version": "0.0.1",
+  "description": "My frontend prototype",
+  "author": "Dima Valuev",
+  "devDependencies": {
+    "browser-sync": "^1.5.8",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "^1.0.1",
+    "gulp-jade": "^0.9.0",
+    "gulp-sass": "^1.2.0"
+  }
+}

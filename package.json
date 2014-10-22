@@ -10,6 +10,10 @@
     "gulp-csscomb": "^3.0.3",
     "gulp-imagemin": "^1.2.1",
     "gulp-jade": "^0.9.0",
-    "gulp-sass": "^1.2.0"
+    "gulp-sass": "^1.2.0",
+    "gulp.spritesmith": "^1.4.0"
+  },
+  "dependencies": {
+    "gulp.spritesmith": "^1.4.0"
   }
 }

@@ -2,7 +2,7 @@
 
 var gulp           = require('gulp'),   
     sass           = require('gulp-sass'),
-    csscomb        = require('gulp-csscomb'),
+    csscomb        = require('gulp-csscomb'),   
     autoprefixer   = require('gulp-autoprefixer'),
     jade           = require('gulp-jade'),
     imagemin       = require('gulp-imagemin'),
@@ -56,12 +56,15 @@ gulp.task('images', function() {
 });
 
 
+
+
 gulp.task('browser-sync', function () {
    var files = [     
       'build/*.html',      
       'build/assets/css/*.css',      
       'build/assets/js/*.js',      
-      'build/assets/img/**/*',      
+      'build/assets/img/**/*',  
+           
    ];
 
    browserSync.init(files, {
@@ -76,7 +79,7 @@ gulp.task('watch',['browser-sync'], function() {
   gulp.watch('src/*.jade', ['jade']);
   gulp.watch('src/assets/styles/*.scss', ['sass']);
   gulp.watch('src/assets/scripts/*.js', ['js']);
-  gulp.watch('src/assets/images/**/*', ['images']);
+  gulp.watch('src/assets/images/**/*', ['images']);  
 });
 
 gulp.task('default', ['watch','jade','sass','scripts','images','browser-sync']);

@@ -1,40 +1,83 @@
 'use strict';
 
-var gulp        = require('gulp'),   
-    sass        = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    jade        = require('gulp-jade'),    
-    browserSync = require('browser-sync');
+var gulp           = require('gulp'),   
+    sass           = require('gulp-sass'),
+    csscomb        = require('gulp-csscomb'),
+    autoprefixer   = require('gulp-autoprefixer'),
+    jade           = require('gulp-jade'),
+    imagemin       = require('gulp-imagemin'),
+    browserSync    = require('browser-sync')
+   
+   
 
 
 //
 // TASKS
 // -------------------------------------------------------------
 
+
+gulp.task('jade', function() {
+  return gulp.src('src/*.jade')
+    .pipe(jade({
+      pretty: true
+    }))
+    .pipe(gulp.dest('build/'))   
+});
+
 gulp.task('sass', function() {
-    gulp.src('src/assets/styles/*.scss')
+   return gulp.src('src/assets/styles/*.scss')
     .pipe(sass())
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('build/assets/css'))
+    .pipe(autoprefixer([
+      'Android 2.3',
+      'Android >= 4',
+      'Chrome >= 20',
+      'Firefox >= 24', // Firefox 24 is the latest ESR
+      'Explorer >= 8',
+      'iOS >= 6',
+      'Opera >= 12',
+      'Safari >= 6']))
+    .pipe(csscomb())
+    .pipe(gulp.dest('build/assets/css')) 
   });
+
+
+gulp.task('scripts', function() {
+  return gulp.src('src/assets/scripts/**/*.js')
+     .pipe(gulp.dest('build/assets/js'))    
+});
+
+
+// Некоректно работает
+gulp.task('images', function() {
+  return gulp.src('src/assets/images/**/*')
+//    .pipe(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true }))  
+    .pipe(imagemin())  
+    .pipe(gulp.dest('build/assets/img'))  
+});
 
 
 gulp.task('browser-sync', function () {
    var files = [     
-      'build/assets/css/*.css',
-      
+      'build/*.html',      
+      'build/assets/css/*.css',      
+      'build/assets/js/*.js',      
+      'build/assets/img/**/*',      
    ];
 
    browserSync.init(files, {
       server: {
-         baseDir: 'build/'
-      }
+         baseDir: './build'
+      }      
    });
 });
 
-gulp.task('watch', function() { 
+
+gulp.task('watch',['browser-sync'], function() { 
+  gulp.watch('src/*.jade', ['jade']);
   gulp.watch('src/assets/styles/*.scss', ['sass']);
+  gulp.watch('src/assets/scripts/*.js', ['js']);
+  gulp.watch('src/assets/images/**/*', ['images']);
 });
 
-gulp.task('default', ['watch','sass','browser-sync']);
+gulp.task('default', ['watch','jade','sass','scripts','images','browser-sync']);
 
